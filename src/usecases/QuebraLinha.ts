@@ -1,34 +1,31 @@
 export default class QuebraLinha {
 
-    handle(frase: string, numColunas: number): string[] {
+    handle(frase: string, numColunas: number): string {
 
         const fraseTrim = frase ? frase.trim() : null
-       
+
         if(!fraseTrim) {
             throw new Error("A frase não foi informada!");
         }
 
-        if(!numColunas) throw new Error('A quantidade de coluna não foi informada!')
+        if(!numColunas) throw new Error('A quantidade de colunas não foi informada!')
         
-        let nRep = (fraseTrim.length / numColunas);
-        let isInteiro = Number.isInteger(nRep) ? nRep : Number.parseInt(`${nRep}`) + 1;
-       
-        console.log(isInteiro)
+        let row = '', result = '';
         const words = fraseTrim.split(' ');
+               
+        words.forEach((word, index) => {
+            if (row.length + word.length <= numColunas) {
+                row += (!row) ? word : ` ${word}`;
+                if(index === words.length-1){
+                    result += `${row}`;
+                }
+            } else {
+                result += `${row}\n`;
+                row = word;
+            }
+        })
 
-        let fraseMontada = [];
-        let count = 0;
-        
-        for (var i = 0; i <= isInteiro; i++) {
-            words.forEach(word => {
-                  count = count + word.length;
-                  if (count <= numColunas) {
-                      fraseMontada[isInteiro].push(word)
-                  } 
-              })
-        }
-
-        return [];
+        return result;
     }
 }
 
